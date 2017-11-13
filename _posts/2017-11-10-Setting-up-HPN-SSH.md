@@ -5,7 +5,7 @@ date:   2017-11-10 17:45:35 +0100
 categories: ssh hpn server
 ---
 
-# Some introduction
+## Some introduction
 
 Before I dive into the guts of this article, let me explain to you in short
 why I felt the need to setup HPN-SSH in the first place. If you don't care,
@@ -31,12 +31,12 @@ HPN SSH is basically just a patch that alters some of the OpenSSH source code to
 avoid certain limitations and thereby boosting transfer speeds. Setting it up
 is actually pretty easy, so let me explain to you how to do it.
 
-# How to Setup HPN SSH
+## How to Setup HPN SSH
 
 We are using Debian Stretch on our servers, so the following instructions are tested only on this
 very operating system.
 
-## Get the sources
+# Get the sources
 
 We could download the source code from the OpenSSH project website. But actually we won't. Instead
 we will stick with the version that is being shipped with Debian by default. So to get the
@@ -83,5 +83,8 @@ Don't forget to start the server!
 When you reconnect to your server, you will notice that the fingerprints have changed.
 This is normal, you can safely delete the old fingerprints and accept the new ones.
 
-That's it for now! After all, this is just a test post. I will add more instructions later :)
-See you soon!
+That's it! Remember to enable autostart of your new ssh server, for example by creating
+a service file for systemd. I will explain how to create one in a later tutorial.
+
+HPN SSH made file transfers two to four times as fast on our servers. I hope
+that your experiences will be at least this good, or maybe even better :)
