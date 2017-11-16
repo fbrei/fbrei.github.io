@@ -5,8 +5,6 @@ date:   2017-11-10 17:45:35 +0100
 categories: ssh hpn server
 ---
 
-## Some introduction
-
 Before I dive into the guts of this article, let me explain to you in short
 why I felt the need to setup HPN-SSH in the first place. If you don't care,
 you can of course always skip ahead ;)
@@ -36,49 +34,66 @@ is actually pretty easy, so let me explain to you how to do it.
 We are using Debian Stretch on our servers, so the following instructions are tested only on this
 very operating system.
 
-# Get the sources
+### Get the sources
 
 We could download the source code from the OpenSSH project website. But actually we won't. Instead
 we will stick with the version that is being shipped with Debian by default. So to get the
 source code, fire up a terminal and enter as a non root user preferrably:
 
-    apt source openssh-server
+```bash
+apt source openssh-server
+```
 
 This will download the source. To make sure that you can actually build the program, you
 need all the dependencies installed:
 
-    apt build-dep openssh-server
+```bash
+apt build-dep openssh-server
+```
 
 Right now there is no way to download the patch from the command line, so you have to
 head over to [Sourceforge](https://sourceforge.net/projects/hpnssh/files/?source=navbar) and
 grab your copy there. Click on the version that matches your OpenSSH version and download
 the file that is called
 
-    openssh-X_X_PX-hpn-XX.XX.diff
+```bash
+openssh-X_X_PX-hpn-XX.XX.diff
+```
 
 Now go ahead and delete the source folder of openssh, as it contains a version that
-has potentially been altered by the Debian project. Then extract the original sources
+has potentially been altered by the Debian project. Then extract the original sources.
 
-    rm -rf openssh-X.XpX
-    tar -xzf openssh-X.XpX.orig.tar.gz
+```bash
+rm -rf openssh-X.XpX
+tar -xzf openssh-X.XpX.orig.tar.gz
+```
+
+
+### Compile and install
 
 Now let's apply the patch and build!
 
-    cd openssh-X.XpX
-    cp /path/to/patch.diff .
-    patch -p1 < openssh-X_X_PX-hpn-XX.XX.diff
-    ./configure
-    make
+```bash
+cd openssh-X.XpX
+cp /path/to/patch.diff .
+patch -p1 < openssh-X_X_PX-hpn-XX.XX.diff
+./configure
+make
+```
 
 After that is done (could take a while), you can safely remove the original version
 of OpenSSH and install the new one.
 
-    sudo apt purge openssh-server
-    sudo make install
+```bash
+sudo apt purge openssh-server
+sudo make install
+```
 
 Don't forget to start the server!
 
-    /usr/local/sbin/sshd
+```bash
+/usr/local/sbin/sshd
+```
 
 When you reconnect to your server, you will notice that the fingerprints have changed.
 This is normal, you can safely delete the old fingerprints and accept the new ones.
